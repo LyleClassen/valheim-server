@@ -3,7 +3,6 @@ version: '3.8'
 volumes:
   shared-logs: {}
   prometheus-data: {}
-
 services:
   valheim:
     container_name: 'valheim_bepinex'
