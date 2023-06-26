@@ -1,18 +1,17 @@
-version: "3.8"
+version: '3.8'
 
 volumes:
-  shared-logs: { }
-  prometheus-data: { }
+  shared-logs: {}
+  prometheus-data: {}
 
 services:
-
   valheim:
-    container_name: "valheim_vanilla"
-    image: "adaliszk/valheim-server:latest"
+    container_name: 'valheim_bepinex'
+    image: 'adaliszk/valheim-server:bepinex'
     environment:
-      SERVER_NAME: "SMET Server"
-      SERVER_WORLD: "Mitchells Plain"
-      SERVER_PASSWORD: "frontleftye"
+      SERVER_NAME: 'SMET Server'
+      SERVER_WORLD: 'Mitchells Plain'
+      SERVER_PASSWORD: 'frontleftye'
     volumes:
       - shared-logs:/logs
     ports:
@@ -20,24 +19,24 @@ services:
       - 2457:2457/udp
 
   metrics-exporter:
-    container_name: "metrics_exporter"
-    image: "adaliszk/valheim-server-monitoring:metrics"
+    container_name: 'metrics_exporter'
+    image: 'adaliszk/valheim-server-monitoring:metrics'
     volumes:
       - shared-logs:/logs:ro
     ports:
       - 3903:3903
 
   docker-exporter:
-    container_name: "docker_exporter"
-    image: "prometheusnet/docker_exporter:latest"
+    container_name: 'docker_exporter'
+    image: 'prometheusnet/docker_exporter:latest'
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - 3417:9417
 
   prometheus:
-    container_name: "prometheus"
-    image: "adaliszk/valheim-server-monitoring:prometheus"
+    container_name: 'prometheus'
+    image: 'adaliszk/valheim-server-monitoring:prometheus'
     links:
       - metrics-exporter
       - docker-exporter
